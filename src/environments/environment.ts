@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  baseUrl:'http://localhost:4200/'
+  production: true,
+  baseUrl:'https://3m2a-t-shirt.netlify.app'
 }
