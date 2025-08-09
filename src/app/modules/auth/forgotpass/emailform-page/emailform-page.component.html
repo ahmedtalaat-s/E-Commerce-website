@@ -1,0 +1,70 @@
+<header class="header">
+  <nav class="nav">
+    <a routerLink="/main" class="logo">3M2A T-SHIRT</a>
+  </nav>
+</header>
+<main>
+  <div class="main-container">
+    <div class="auth-container">
+      <div class="card-wrapper" id="cardWrapper">
+        <!-- email Card -->
+        <div class="auth-card login">
+          <h2>Enter your email</h2>
+          <form id="emailForm" [formGroup]="emailForm" (ngSubmit)="onsubmit()">
+            <div class="form-group">
+              <input
+                formControlName="email"
+                type="email"
+                class="form-input"
+                placeholder="Your Email"
+                id="loginEmail"
+              />
+              <i class="input-icon uil uil-at"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                emailForm.get('email')?.dirty &&
+                emailForm.get('email')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Email is required
+              </p>
+            </ng-template>
+
+            <ng-template
+              [ngIf]="
+                emailForm.get('email')?.dirty &&
+                emailForm.get('email')?.getError('email')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Enter Valid Email
+              </p>
+            </ng-template>
+
+            <ng-template [ngIf]="message">
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >{{ message }}
+              </p>
+            </ng-template>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="emailForm.invalid"
+            >
+              SEND MAIL
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div *ngIf="isloading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>

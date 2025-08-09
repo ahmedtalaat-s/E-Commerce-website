@@ -1,0 +1,112 @@
+<!-- Categories Section -->
+<section class="content-section" id="categories">
+  <div class="page-header">
+    <h1 class="page-title">Product Categories</h1>
+    <p class="page-subtitle">Manage your product categories</p>
+  </div>
+
+  <div class="success-message" id="category-success">
+    Category added successfully! ✅
+  </div>
+  <div class="error-message" id="category-error">{{ errormessage }}! ❌</div>
+
+  <div class="form-section">
+    <div class="form-header">
+      <span class="form-icon">📁</span>
+      <h2 class="form-title">Add New Category</h2>
+    </div>
+    <form id="category-form" [formGroup]="categoryForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="category-name">Category Name</label>
+          <input
+            formControlName="Name"
+            type="text"
+            id="category-name"
+            class="form-input"
+            placeholder="e.g., T-Shirts, Hoodies, Accessories"
+            required
+          />
+          <ng-template
+            [ngIf]="
+              categoryForm.get('Name')?.dirty &&
+              categoryForm.get('Name')?.getError('required')
+            "
+          >
+            <p class="ms-1 fw-semibold mt-1">
+              <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i>Name
+              is required
+            </p>
+          </ng-template>
+          <ng-template
+            [ngIf]="
+              categoryForm.get('Name')?.dirty &&
+              categoryForm.get('Name')?.getError('minlength')
+            "
+          >
+            <p class="ms-1 fw-semibold mt-1">
+              <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i>it
+              must be greater then 3 characters
+            </p>
+          </ng-template>
+        </div>
+      </div>
+
+      <button
+        *ngIf="!updateBool"
+        (click)="addCategory()"
+        [disabled]="!categoryForm.valid"
+        type="submit"
+        class="btn btn-primary"
+      >
+        <span>➕</span>
+        Add Category
+      </button>
+      <button
+        *ngIf="updateBool"
+        (click)="updateCategoryInDatabase()"
+        [disabled]="!categoryForm.valid"
+        type="submit"
+        class="btn btn-primary"
+      >
+        <span>➕</span>
+        Update Category
+      </button>
+    </form>
+  </div>
+
+  <div class="table-section">
+    <div class="table-header">
+      <h3 class="table-title">Existing Categories</h3>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Category Name</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="categories-table">
+        <tr *ngFor="let category of categories">
+          <td>{{ category.name }}</td>
+          <td>{{ category.created_at | date : "short" }}</td>
+          <td>
+            <button
+              (click)="updateCategory(category.id)"
+              class="action-btn action-edit"
+            >
+              Edit
+            </button>
+            <button
+              (click)="deleteCategory(category.id)"
+              class="action-btn action-delete"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

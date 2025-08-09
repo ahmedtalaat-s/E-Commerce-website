@@ -1,0 +1,54 @@
+<header class="header">
+  <!-- Add bootstrap navbar class -->
+  <nav class="nav navbar navbar-expand-lg">
+    <a routerLink="main" class="logo navbar-brand">3M2A T-SHIRT</a>
+
+    <!-- Toggler button BEFORE the collapse div -->
+    <button
+      class="navbar-toggler text-white"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fa-solid fa-bars text-white"></i>
+    </button>
+
+    <!-- Bootstrap expects this structure -->
+    <div id="navbarNav" class="collapse navbar-collapse">
+      <ul class="nav-links navbar-nav m-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" (click)="scroll('main')">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scroll('services')">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="allproducts">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scroll('help')">Help</a>
+        </li>
+      </ul>
+    </div>
+
+    <a (click)="navigationconditio()" class="cta-btn position-relative">
+      <span *ngIf="!loggedBool">Start Designing</span>
+      <i
+        *ngIf="loggedBool"
+        class="fa-solid fa-user-tie"
+        style="color: #ffffff"
+      ></i>
+      <span
+        *ngIf="unreadCount != 0"
+        class="position-absolute notification-count"
+        >{{ unreadCount }}</span
+      >
+    </a>
+  </nav>
+</header>

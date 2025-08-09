@@ -1,0 +1,131 @@
+<!-- Notifications Section -->
+<section class="content-section" id="notifications">
+  <div class="page-header">
+    <h1 class="page-title">Send Notifications</h1>
+    <p class="page-subtitle">Send messages to your customers</p>
+  </div>
+
+  <div class="success-message" id="notification-success">
+    Notification sent successfully! ✅
+  </div>
+
+  <div class="form-section">
+    <div class="form-header">
+      <span class="form-icon">📢</span>
+      <h2 class="form-title">Create Notification</h2>
+    </div>
+    <div class="notification-form">
+      <div>
+        <form
+          [formGroup]="notificationForm"
+          (ngSubmit)="sendNotification($event)"
+        >
+          <div class="form-group">
+            <label class="form-label" for="title">Notification Title</label>
+            <input
+              type="text"
+              id="title"
+              class="form-input"
+              formControlName="title"
+              placeholder="Enter notification title"
+            />
+            <div class="error" *ngIf="f['title'].touched && f['title'].invalid">
+              <small *ngIf="f['title'].errors?.['required']"
+                >Title is required.</small
+              >
+              <small *ngIf="f['title'].errors?.['minlength']"
+                >Title must be more than 3 characters.</small
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea
+              id="message"
+              class="form-input form-textarea"
+              formControlName="message"
+              placeholder="Write your notification message here..."
+              style="min-height: 120px"
+            ></textarea>
+            <div
+              class="error"
+              *ngIf="f['message'].touched && f['message'].invalid"
+            >
+              <small *ngIf="f['message'].errors?.['required']"
+                >Message is required.</small
+              >
+              <small *ngIf="f['message'].errors?.['minlength']"
+                >Message must be more than 3 characters.</small
+              >
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="notificationForm.invalid"
+          >
+            <span>📤</span>
+            Send Notification
+          </button>
+        </form>
+      </div>
+      <div class="notification-preview">
+        <div class="preview-title">Preview</div>
+        <div class="notification-card" id="preview-card">
+          <div
+            class="notification-title text-break fw-bold text-primary-emphasis"
+          >
+            <h3 class="h5">{{ notificationForm.get("title")?.value }}</h3>
+          </div>
+          <div class="notification-text text-break fw-light" id="preview-text">
+            {{ notificationForm.get("message")?.value }}
+          </div>
+          <div class="notification-time">Just now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Notifications -->
+  <div class="table-section">
+    <div class="table-header">
+      <h3 class="table-title">Recent Notifications</h3>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Recipients</th>
+          <th>Message</th>
+          <th>Sent Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="notifications-table">
+        <tr>
+          <td>Order Update</td>
+          <td>ahmedemail.com</td>
+          <td>Your order #1247 has been shipped...</td>
+          <td>2 hours ago</td>
+          <td><span style="color: var(--success)">Delivered</span></td>
+        </tr>
+        <tr>
+          <td>Promotion</td>
+          <td>All Customers (324)</td>
+          <td>Summer Sale - 20% off all items!</td>
+          <td>1 day ago</td>
+          <td><span style="color: var(--success)">Delivered</span></td>
+        </tr>
+        <tr>
+          <td>System Update</td>
+          <td>All Customers (324)</td>
+          <td>We've updated our design studio...</td>
+          <td>3 days ago</td>
+          <td><span style="color: var(--success)">Delivered</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

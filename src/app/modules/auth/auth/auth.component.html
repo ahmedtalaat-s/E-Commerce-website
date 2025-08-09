@@ -1,0 +1,257 @@
+<header class="header">
+  <nav class="nav">
+    <a routerLink="/main" class="logo">3M2A T-SHIRT</a>
+  </nav>
+</header>
+<main>
+  <div class="main-container">
+    <div class="auth-container">
+      <div class="auth-toggle">
+        <div class="toggle-title">
+          <span class="login-toggle active">Log In</span>
+          <span class="signup-toggle">Sign Up</span>
+        </div>
+        <div class="toggle-switch" id="toggleSwitch"></div>
+      </div>
+
+      <div class="card-wrapper" id="cardWrapper">
+        <!-- Login Card -->
+        <div class="auth-card login">
+          <h2>Welcome Back</h2>
+          <form
+            id="loginForm"
+            [formGroup]="signInForm"
+            (ngSubmit)="onsubmitsignin()"
+          >
+            <div class="form-group">
+              <input
+                formControlName="email"
+                type="email"
+                class="form-input"
+                placeholder="Your Email"
+                id="loginEmail"
+                required
+              />
+              <i class="input-icon uil uil-at"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                signInForm.get('email')?.dirty &&
+                signInForm.get('email')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Email is required
+              </p>
+            </ng-template>
+
+            <ng-template
+              [ngIf]="
+                signInForm.get('email')?.dirty &&
+                signInForm.get('email')?.getError('email')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Enter Valid Email
+              </p>
+            </ng-template>
+            <div class="form-group">
+              <input
+                formControlName="password"
+                type="password"
+                class="form-input"
+                placeholder="Your Password"
+                id="loginPassword"
+                required
+              />
+              <i class="input-icon uil uil-lock-alt"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                signInForm.get('password')?.dirty &&
+                signInForm.get('password')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Password is required
+              </p>
+            </ng-template>
+            <ng-template [ngIf]="error">
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >{{ errormsg }}
+              </p>
+            </ng-template>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="signInForm.invalid"
+            >
+              Log In
+            </button>
+            <div class="forgot-link">
+              <a routerLink="/email">Forgot your password?</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Signup Card -->
+        <div class="auth-card signup">
+          <h2>Create Account</h2>
+          <form
+            id="signupForm"
+            [formGroup]="signUpForm"
+            (ngSubmit)="onsubmitsignup()"
+          >
+            <div class="form-group">
+              <input
+                formControlName="userName"
+                type="text"
+                class="form-input"
+                placeholder="Your Full Name"
+                id="signupName"
+                required
+              />
+              <i class="input-icon uil uil-user"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                signUpForm.get('userName')?.dirty &&
+                signUpForm.get('userName')?.getError('required')
+              "
+              ><p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >username is required
+              </p></ng-template
+            >
+            <ng-template
+              [ngIf]="
+                signUpForm.get('userName')?.dirty &&
+                signUpForm.get('userName')?.getError('minlength')
+              "
+              ><p class="ms-1 fw-semibold mt-1 fs-6">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Enter more than 3 characters
+              </p></ng-template
+            >
+
+            <div class="form-group">
+              <input
+                formControlName="email"
+                type="email"
+                class="form-input"
+                placeholder="Your Email"
+                id="signupEmail"
+                required
+              />
+              <i class="input-icon uil uil-at"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                signUpForm.get('email')?.dirty &&
+                signUpForm.get('email')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Email is required
+              </p>
+            </ng-template>
+
+            <ng-template
+              [ngIf]="
+                signUpForm.get('email')?.dirty &&
+                signUpForm.get('email')?.getError('email')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Enter Valid Email
+              </p>
+            </ng-template>
+            <div class="form-group">
+              <input
+                formControlName="password"
+                type="password"
+                class="form-input"
+                placeholder="Your Password"
+                id="signupPassword"
+                required
+              />
+              <i class="input-icon uil uil-lock-alt"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                signUpForm.get('password')?.dirty &&
+                signUpForm.get('password')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Password is required
+              </p>
+            </ng-template>
+            <ng-template
+              [ngIf]="
+                signUpForm.get('password')?.dirty &&
+                (signUpForm.get('password')?.getError('pattern') ||
+                  (signUpForm.get('password')?.dirty &&
+                    signUpForm.get('password')?.getError('minlength')))
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <span class="d-block">Password must contain at least</span>
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one lowercase letter</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one uppercase letter</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one special character</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one number</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >enter at least <strong>6</strong> characters</span
+                >
+              </p>
+            </ng-template>
+            <!-- email exists -->
+            <ng-template [ngIf]="emailExists">
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Email Already Exists
+              </p>
+            </ng-template>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="signUpForm.invalid"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="msg" [ngClass]="{ show: signUpsuccess }">
+  <i class="fa-solid fa-circle-check text-success"></i>
+  Sign Up Succeess
+</div>
+
+<div *ngIf="isloading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>

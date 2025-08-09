@@ -1,0 +1,101 @@
+<header class="header">
+  <nav class="nav">
+    <a routerLink="/main" class="logo">3M2A T-SHIRT</a>
+  </nav>
+</header>
+<main>
+  <div class="main-container">
+    <div class="auth-container">
+      <div class="card-wrapper" id="cardWrapper">
+        <!-- email Card -->
+        <div class="auth-card login">
+          <h2>Reset Password</h2>
+          <form
+            id="emailForm"
+            [formGroup]="passwordForm"
+            (ngSubmit)="onsubmit()"
+          >
+            <div class="form-group">
+              <input
+                formControlName="password"
+                type="password"
+                class="form-input"
+                placeholder="Your Password"
+                id="signupPassword"
+                required
+              />
+              <i class="input-icon uil uil-lock-alt"></i>
+            </div>
+            <ng-template
+              [ngIf]="
+                passwordForm.get('password')?.dirty &&
+                passwordForm.get('password')?.getError('required')
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                >Password is required
+              </p>
+            </ng-template>
+            <ng-template
+              [ngIf]="
+                passwordForm.get('password')?.dirty &&
+                (passwordForm.get('password')?.getError('pattern') ||
+                  (passwordForm.get('password')?.dirty &&
+                    passwordForm.get('password')?.getError('minlength')))
+              "
+            >
+              <p class="ms-1 fw-semibold mt-1">
+                <span class="d-block">Password must contain at least</span>
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one lowercase letter</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one uppercase letter</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one special character</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >one number</span
+                >
+                <span class="d-block"
+                  ><i class="fa-solid fa-circle-xmark me-1 text-danger fs-6"></i
+                  >enter at least <strong>6</strong> characters</span
+                >
+              </p>
+            </ng-template>
+            <ng-template [ngIf]="error">
+              <p class="ms-1 fw-semibold mt-1">
+                <i
+                  *ngIf="error"
+                  class="fa-solid fa-circle-xmark me-1 text-danger fs-6"
+                ></i>
+                <i
+                  *ngIf="!error"
+                  class="fa-solid fa-circle-check text-success"
+                ></i>
+                {{ message }}
+              </p>
+            </ng-template>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="passwordForm.invalid"
+            >
+              Reset
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div *ngIf="isloading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>

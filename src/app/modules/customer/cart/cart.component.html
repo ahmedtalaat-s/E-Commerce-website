@@ -1,0 +1,119 @@
+<div class="mainwrapper">
+  <header class="header">
+    <nav class="nav">
+      <a routerLink="/main" class="logo">3M2A T-SHIRT</a>
+      <div class="nav-right">
+        <a routerLink="/allproducts" class="back-btn">← Continue Shopping</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main">
+    <h1 class="page-title">Shopping Cart</h1>
+
+    <div class="cart-container">
+      <div class="cart-items">
+        <p class="lead h2 text-center pt-3 pb-3" *ngIf="cartOrders.length == 0">
+          You Have No Orders :(
+        </p>
+        <div class="cart-item" *ngFor="let cartOrder of cartOrders">
+          <div class="item-image">
+            <img
+              class="w-100 h-100 object-fit-cover"
+              src="{{
+                cartOrder.design ? cartOrder.design : cartOrder.base_product_img
+              }}"
+              alt=""
+            />
+          </div>
+          <div class="item-details">
+            <div class="item-name">{{ cartOrder.title }}</div>
+            <div class="item-description">
+              {{ cartOrder.additional_comment }}
+            </div>
+            <div class="item-options">
+              <span class="option-tag">Size: {{ cartOrder.size }}</span>
+              <span class="option-tag">Color: {{ cartOrder.color }}</span>
+              <span class="option-tag">Digital Print</span>
+            </div>
+          </div>
+          <div class="item-controls">
+            <div class="item-price">${{ cartOrder.totalPrice }}</div>
+            <div class="quantity-controls">
+              <input
+                type="text"
+                class="qty-input"
+                value="{{ cartOrder.quantity }}"
+                readonly
+              />
+            </div>
+            <button class="remove-btn" (click)="deleteCartOrder(cartOrder.id)">
+              🗑️
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <h3 class="summary-title">Order Summary</h3>
+
+        <div class="summary-row">
+          <span>Subtotal ({{ cartOrders.length }} items type</span>
+          <span>${{ totalPrice }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>FREE</span>
+        </div>
+
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>${{ totalPrice }}</span>
+        </div>
+
+        <form [formGroup]="addressForm">
+          <div class="shipping-address">
+            <h4 class="address-title">📍 Shipping Address</h4>
+            <textarea
+              class="address-input"
+              placeholder="Enter your complete shipping address...&#10;&#10;Example:&#10;John Smith&#10;123 Main Street, Apt 4B&#10;New York, NY 10001&#10;United States"
+              rows="5"
+              formControlName="address"
+            ></textarea>
+
+            <div class="address-note">
+              Please include your full name, street address, city, state, and
+              ZIP code
+            </div>
+
+            <div
+              class="text-danger"
+              *ngIf="address.invalid && (address.dirty || address.touched)"
+            >
+              <div *ngIf="address.errors?.required">Address is required.</div>
+              <div *ngIf="address.errors?.minlength">Address is too short.</div>
+              <div *ngIf="address.errors?.invalidFormat">
+                Enter a complete valid address.
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <button
+          [disabled]="cartOrders.length == 0 || addressForm.invalid"
+          class="checkout-btn"
+          (click)="pay()"
+        >
+          Proceed to Checkout
+        </button>
+
+        <a href="#" class="continue-shopping">Continue Shopping</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div *ngIf="loading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>

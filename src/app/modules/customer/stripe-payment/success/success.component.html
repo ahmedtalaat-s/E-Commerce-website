@@ -1,0 +1,58 @@
+<div class="mainWrapper">
+  <div class="confetti"></div>
+
+  <header class="header">
+    <nav class="nav">
+      <a routerLink="/main" class="logo">3M2A T-SHIRT</a>
+      <div class="nav-right">
+        <a routerLink="/main" class="home-btn">🏠 Home</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main">
+    <div class="success-container">
+      <div class="success-icon">✓</div>
+
+      <h1 class="success-title">Payment Successful!</h1>
+      <p class="success-message">
+        Thank you for your order! Your payment has been processed successfully
+        and your custom apparel is now in production.
+      </p>
+
+      <div class="order-details">
+        <h3 class="order-title">📋 Order Summary</h3>
+        <div class="order-row">
+          <span>Customer:</span>
+          <span
+            ><strong>{{ payedOrder.customer_name }}</strong></span
+          >
+        </div>
+        <div class="order-row">
+          <span>Payment Method:</span>
+          <span>card</span>
+        </div>
+        <div class="order-row">
+          <span>Total Amount:</span>
+          <span
+            ><strong>${{ totalPrice }}</strong></span
+          >
+        </div>
+      </div>
+
+      <div class="confirmation-info">
+        <h4>📦 What's Next?</h4>
+        <p><strong>Production Time:</strong> 1-2 business days</p>
+        <p><strong>Shipping:</strong> 3-5 business days via UPS Ground</p>
+        <p><strong>Expected Delivery:</strong> January 15-18, 2025</p>
+
+        <!-- <div class="email-sent">✉️ Confirmation email sent to your inbox</div> -->
+      </div>
+
+      <div class="action-buttons">
+        <a routerLink="/dashboard" class="btn-primary">Track Your Order</a>
+        <a routerLink="/allproducts" class="btn-secondary">Continue Shopping</a>
+      </div>
+    </div>
+  </main>
+</div>

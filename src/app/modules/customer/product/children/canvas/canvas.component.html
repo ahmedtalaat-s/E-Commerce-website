@@ -1,0 +1,13 @@
+<input
+  class="form-control form-input w-100"
+  type="file"
+  (change)="onFileChange($event)"
+/>
+
+<canvas #canvas width="400" height="500" style="margin: auto"></canvas>
+
+<div class="d-flex justify-content-center align-items-center">
+  <button class="btn btn-primary" (click)="increaseSize()">+</button>
+  <span class="text-capitalize lead h2">size</span>
+  <button class="btn btn-primary" (click)="decreaseSize()">-</button>
+</div>

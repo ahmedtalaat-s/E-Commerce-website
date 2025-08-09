@@ -1,0 +1,323 @@
+<div class="container">
+  <header class="header">
+    <div class="logo">3M2A T-SHIRT</div>
+    <nav class="nav">
+      <!-- <a href="#" class="active">T-Shirts</a>
+      <a href="#">Hoodies</a>
+      <a href="#">Accessories</a>
+      <a href="#">Custom</a> -->
+    </nav>
+  </header>
+
+  <div class="product-container" *ngIf="!loading">
+    <div class="product-images">
+      <div class="main-image">
+        <div class="tshirt">
+          <img [src]="product.image_url" alt="" />
+        </div>
+      </div>
+      <div class="thumbnails">
+        <!-- <div class="thumbnail active"></div>
+        <div class="thumbnail"></div>
+        <div class="thumbnail"></div> -->
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 class="product-title">{{ product.name }}</h1>
+      <p class="product-subtitle">
+        {{ product.description }}
+      </p>
+
+      <div class="rating">
+        <span class="star active" *ngFor="let _ of fullStars"
+          ><i class="fa-solid fa-star"></i
+        ></span>
+        <span class="star active" *ngIf="halfStar"
+          ><i class="fa-solid fa-star-half"></i
+        ></span>
+        <span class="star empty active" *ngFor="let _ of emptyStars"
+          ><i class="fa-regular fa-star"></i
+        ></span>
+        <span>({{ reviewCount }} reviews)</span>
+      </div>
+
+      <div class="price">
+        ${{ product.price }}
+        <!-- <span class="original">$39.99</span> -->
+      </div>
+
+      <div class="options">
+        <div class="option-group">
+          <label class="option-label">Color</label>
+          <div class="color-options">
+            <div
+              *ngFor="let color of product.colors"
+              class="color-option"
+              [style.backgroundColor]="color"
+              [class.active]="color == this.currentColor"
+              (click)="colorChanged(color)"
+            ></div>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="option-label">Size</label>
+          <div class="size-options">
+            <div
+              *ngFor="let size of product.sizes"
+              (click)="sizeChanged(size)"
+              [class.active]="size == this.currentSize"
+              class="size-option"
+            >
+              {{ size }}
+            </div>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="option-label">Quantity</label>
+          <div class="quantity-selector">
+            <div class="quantity-input">
+              <button class="quantity-btn" (click)="changeQuantity(-1)">
+                -
+              </button>
+              <div class="quantity-display" id="quantity">{{ quantity }}</div>
+              <button class="quantity-btn" (click)="changeQuantity(1)">
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label option-label"
+          >Additional Notes
+        </label>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          placeholder="Write any special instructions for this shirt..."
+          (input)="changeMessage($event)"
+        ></textarea>
+      </div>
+
+      <div class="actions">
+        <button
+          class="btn btn-primary"
+          (click)="addToCart()"
+          [disabled]="addTocartBtnBool"
+        >
+          Add to Cart
+        </button>
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#canvas"
+        >
+          Add Your design
+        </button>
+      </div>
+
+      <div class="features">
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>100% Premium Cotton</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Machine Washable</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Pre-shrunk Fabric</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Ethically Sourced</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Free Shipping Over $50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal -->
+  <div
+    class="modal fade"
+    id="canvas"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Upload Your Design
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div
+          class="modal-body"
+          class="d-flex flex-column align-items-center p-md-2"
+        >
+          <app-canvas [backgroundImage]="product.image_url"></app-canvas>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="save()"
+          >
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comments-section">
+    <h2 class="section-title">Customer Comments</h2>
+
+    <div class="add-comment">
+      <div class="comment-form">
+        <div class="user-input">
+          <div class="rating-input">
+            <span class="rating-label">Rating:</span>
+            <div class="star-rating">
+              <span
+                *ngFor="let star of stars"
+                class="star"
+                [class.active]="isStarActive(star)"
+                (click)="selectRating(star)"
+                (mouseenter)="hoverRating(star)"
+                (mouse)="hoverRating(star)"
+                >★</span
+              >
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="reviewForm">
+          <!-- Comment -->
+          <textarea
+            id="commentText"
+            placeholder="Share your thoughts about this product..."
+            class="comment-textarea"
+            formControlName="comment"
+          >
+          </textarea>
+          <div
+            *ngIf="
+              reviewForm.get('comment')?.invalid &&
+              reviewForm.get('comment')?.touched
+            "
+            class="error"
+          >
+            Comment must be at least 5 characters.
+          </div>
+
+          <!-- Submit -->
+          <button
+            class="btn btn-primary comment-submit"
+            [disabled]="reviewForm.invalid"
+            (click)="addComment()"
+          >
+            Post Comment
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="comments-list" id="commentsList">
+      <!-- Existing comments -->
+      <div *ngFor="let review of reviews; let i = index" class="comment">
+        <div class="comment-header">
+          <div class="user-info">
+            <div class="user-avatar">{{ review.profiles.full_name[0] }}</div>
+            <div class="user-details">
+              <div class="user-name">{{ review.profiles.full_name }}</div>
+              <div class="comment-date">
+                {{ getTimeAgo(review.created_at) }}
+              </div>
+            </div>
+          </div>
+          <div class="comment-rating">
+            <span
+              class="star active"
+              *ngFor="let _ of getStarsArray(review.rating)"
+              >★</span
+            >
+            <span
+              class="star active"
+              *ngFor="let _ of getStarsArray(5 - review.rating)"
+              >☆</span
+            >
+          </div>
+        </div>
+        <div class="comment-text">
+          {{ review.comment }}
+        </div>
+        <div class="d-flex flex-row-reverse">
+          <div
+            *ngIf="role || review.user_id == currentUserId"
+            (click)="deleteComment(review.id)"
+          >
+            <i
+              class="fa-solid fa-trash-can text-danger"
+              style="cursor: pointer"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="related-products">
+    <h2 class="section-title">You Might Also Like</h2>
+    <div class="product-grid">
+      <div
+        *ngFor="let product of recommended"
+        class="product-card"
+        (click)="navigateToProduct(product.id)"
+      >
+        <div class="card-image">
+          <img [src]="product.image_url" class="w-100 h-100" alt="" />
+        </div>
+        <div class="card-title">{{ product.name }}</div>
+        <div class="card-price">${{ product.price }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>
+
+<div id="msg" [class.showmsg]="designSuccess">
+  <i class="fa-solid fa-circle-check text-success"></i>
+  design Added
+</div>
+<div id="msg" [class.showmsg]="addedToCartBool">
+  <i class="fa-solid fa-circle-check text-success"></i>
+  Item Added To Cart
+</div>

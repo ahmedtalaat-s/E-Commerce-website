@@ -1,0 +1,93 @@
+<main>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo"><a routerLink="/main">3M2A T-SHIRT Admin</a></div>
+      <div class="admin-info">
+        <div class="admin-avatar">A</div>
+        <div>
+          <div class="admin-name">Admin User</div>
+          <div class="admin-role">System Administrator</div>
+        </div>
+        <a (click)="logout()" class="logout-btn">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav>
+        <ul class="sidebar-nav">
+          <li>
+            <a
+              routerLink="dashboard"
+              routerLinkActive="active"
+              class="nav-link"
+              data-section="dashboard"
+            >
+              <span class="nav-icon">📊</span>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="categories"
+              routerLinkActive="active"
+              class="nav-link"
+              data-section="categories"
+            >
+              <span class="nav-icon">📁</span>
+              Categories
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="addProduct"
+              routerLinkActive="active"
+              class="nav-link"
+              data-section="products"
+            >
+              <span class="nav-icon">👕</span>
+              Products
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="notification"
+              routerLinkActive="active"
+              class="nav-link"
+              data-section="notifications"
+            >
+              <span class="nav-icon">📢</span>
+              Send Notifications
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="orders"
+              routerLinkActive="active"
+              class="nav-link"
+              data-section="orders"
+            >
+              <span class="nav-icon">📦</span>
+              Orders
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" data-section="customers">
+              <span class="nav-icon">👥</span>
+              Customers
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</main>

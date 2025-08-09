@@ -1,0 +1,149 @@
+<!-- Header -->
+<header class="header">
+  <div class="header-content">
+    <div class="logo" style="cursor: pointer" routerLink="/main">
+      3M2A T-SHIRT
+    </div>
+    <div class="user-info">
+      <div class="user-avatar">
+        <i class="fa-solid fa-user-tie" style="color: #ffffff"></i>
+      </div>
+      <div class="user-name">{{ user.name }}</div>
+      <a (click)="logout()" class="logout-btn">Logout</a>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Dashboard Section -->
+  <div class="dashboard-section">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner hover-lift">
+      <h1>Welcome back, {{ user.name.split(" ")[0] }}! 👋</h1>
+      <p>Here are the latest updates on your orders and account</p>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="orders-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="section-icon">🧾</span>
+          My Orders
+        </h2>
+      </div>
+
+      <div class="orders-grid">
+        <!-- Order 1 -->
+        <div *ngFor="let order of orders" class="order-card hover-lift">
+          <div class="order-header">
+            <div>
+              <div class="order-number">{{ order.name }}</div>
+              <div class="order-date">{{ order.date | date : "short" }}</div>
+            </div>
+            <div class="order-status status-{{ order.state }}">
+              {{ order.state }}
+            </div>
+          </div>
+          <div class="order-details">
+            <div class="order-items">
+              {{ getQuantity(order.details) }} items
+            </div>
+            <div class="order-total">${{ order.total_price }}</div>
+          </div>
+          <div class="order-actions">
+            <!-- <a href="#" class="btn-small btn-primary-small">View Details</a>
+            <a href="#" class="btn-small btn-secondary-small"
+              >Download Invoice</a
+            > -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Account Info -->
+    <div class="sidebar-card hover-lift">
+      <h3 class="sidebar-title">
+        <span class="section-icon">👤</span>
+        Account Information
+      </h3>
+      <div class="account-info">
+        <div class="info-item">
+          <span class="info-label">Name</span>
+          <span class="info-value">{{ user.name }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label me-1">Email</span>
+          <span class="info-value">{{ user.email }}</span>
+        </div>
+        <!-- <div class="info-item">
+          <span class="info-label">Phone</span>
+          <span class="info-value">{{ user.phone }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Address</span>
+          <span class="info-value">{{ user.address }}</span>
+        </div> -->
+      </div>
+      <!-- <a class="edit-profile-btn">Update Information</a> -->
+    </div>
+
+    <!-- Notifications -->
+    <div class="sidebar-card hover-lift" (mouseenter)="markAllAsRead()">
+      <h3 class="sidebar-title">
+        <span class="section-icon">✉️</span>
+        Notifications
+        <span class="notification-badge">{{ unreadCount }}</span>
+      </h3>
+      <div class="notifications-list">
+        <div
+          *ngFor="let notification of notifications"
+          class="notification-item"
+          [class.unread]="!notification.read"
+        >
+          <div
+            class="notification-title text-break fw-bold text-primary-emphasis"
+          >
+            <h3 class="h5">{{ notification.title }}</h3>
+          </div>
+          <div class="notification-text">
+            {{ notification.message }}
+          </div>
+          <div class="notification-time">
+            {{ getTimeAgo(notification.created_at) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="sidebar-card hover-lift">
+      <h3 class="sidebar-title">
+        <span class="section-icon">⚡</span>
+        Quick Actions
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 0.8rem">
+        <a routerLink="/allproducts" class="edit-profile-btn" style="margin: 0"
+          >Create New Design</a
+        >
+        <a
+          routerLink="/main"
+          class="btn-secondary-small"
+          style="
+            padding: 0.7rem 1.2rem;
+            text-align: center;
+            border-radius: 25px;
+          "
+          >Contact Support</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isloading" class="loaderWrapper">
+  <span class="loader"></span>
+</div>

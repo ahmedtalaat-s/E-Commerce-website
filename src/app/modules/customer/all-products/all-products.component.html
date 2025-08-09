@@ -1,0 +1,245 @@
+<div class="containeer">
+  <div class="containerWrapper">
+    <div class="page-header">
+      <h1 class="page-title">All Products</h1>
+      <p class="page-subtitle">
+        Discover our complete collection of premium apparel and accessories
+        crafted for style and comfort
+      </p>
+      <!-- <div class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search products..."
+          id="searchInput"
+        />
+        <button class="search-button">🔍</button>
+      </div> -->
+    </div>
+
+    <div class="filters-section">
+      <aside class="sidebar">
+        <h3 class="filters-title">Filters</h3>
+
+        <div class="filter-group">
+          <label class="filter-label">Category</label>
+          <div class="filter-options">
+            <div
+              class="filter-option"
+              (click)="categoryClicked(category.id)"
+              *ngFor="let category of categories"
+            >
+              <div
+                class="filter-checkbox"
+                [class.checked]="category.id == activeCategory"
+              >
+                <span *ngIf="category.id == activeCategory">✓</span>
+              </div>
+              <span>{{ category.name }} </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Price Range</label>
+          <div class="price-range">
+            <div class="price-inputs">
+              <input
+                type="number"
+                class="price-input"
+                placeholder="Min"
+                value=""
+                (input)="onMinPriceChange($event)"
+              />
+              <input
+                (input)="onMaxPriceChange($event)"
+                type="number"
+                class="price-input"
+                placeholder="Max"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="filter-group">
+          <label class="filter-label">Colors</label>
+          <div class="color-filters">
+            <div
+              class="color-filter"
+              style="background: #ffffff; border: 1px solid #e2e8f0"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #000000"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #dc2626"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #2563eb"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #16a34a"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #ca8a04"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #9333ea"
+              onclick="toggleColorFilter(this)"
+            ></div>
+            <div
+              class="color-filter"
+              style="background: #ec4899"
+              onclick="toggleColorFilter(this)"
+            ></div>
+          </div>
+        </div> -->
+
+        <div class="filter-group">
+          <label class="filter-label">Size</label>
+          <div class="filter-options">
+            <div
+              *ngFor="let size of sizes"
+              class="filter-option"
+              (click)="onSizeChange(size)"
+            >
+              <div
+                class="filter-checkbox"
+                [class.checked]="activeSize === size"
+              >
+                <span *ngIf="size == activeSize">✓</span>
+              </div>
+              <span>{{ size }}</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="toolbar">
+          <div class="results-info">
+            Showing <span id="resultCount">{{ totalItems }}</span> results
+          </div>
+          <div class="toolbar-controls">
+            <div class="view-toggle">
+              <button class="view-btn active" onclick="setView('grid')">
+                ⊞
+              </button>
+              <button class="view-btn" onclick="setView('list')">☰</button>
+            </div>
+            <select class="sort-select">
+              <option>Sort by: Popular</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest First</option>
+              <option>Best Rated</option>
+            </select>
+          </div>
+        </div>
+        <p *ngIf="totalItems == 0" class="h2 text-center lead text-capitalize">
+          No items to display
+        </p>
+
+        <div class="products-grid" id="productsGrid">
+          <!-- product Card -->
+          <div
+            class="product-card"
+            (click)="navigateToProduct(product.id)"
+            *ngFor="let product of products"
+          >
+            <div class="card-image">
+              <div class="card-badge new">New</div>
+              <div class="card-favorite" onclick="toggleFavorite(this)">♡</div>
+              <img src="{{ product.image_url }}" alt="" />
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">{{ product.name }}</h3>
+              <p class="card-description">
+                {{ product.description }}
+              </p>
+              <div class="card-rating">
+                <div class="card-stars">★★★★★</div>
+                <span class="card-reviews"
+                  >({{ product.colors.length }} colors)</span
+                >
+              </div>
+              <div class="card-price">
+                ${{ product.price }}
+                <span class="original">$9.99</span>
+              </div>
+              <div class="card-actions">
+                <button
+                  class="card-btn primary"
+                  (click)="navigateToProduct(product.id)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="card-btn secondary"
+                  (click)="navigateToProduct(product.id)"
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination" *ngIf="totalItems != 0">
+          <button
+            class="pagination-btn"
+            (click)="loadPage(currentPage - 1)"
+            [disabled]="currentPage == 1"
+          >
+            ‹
+          </button>
+          <span class="pagination-btn" *ngIf="currentPage != 1">...</span>
+          <button class="pagination-btn active">{{ currentPage }}</button>
+          <button
+            class="pagination-btn"
+            (click)="loadPage(currentPage + 1)"
+            *ngIf="currentPage != totalPages"
+          >
+            {{ currentPage + 1 }}
+          </button>
+          <button
+            class="pagination-btn"
+            (click)="loadPage(currentPage + 2)"
+            *ngIf="currentPage != totalPages && currentPage + 1 != totalPages"
+          >
+            {{ currentPage + 2 }}
+          </button>
+          <span
+            class="pagination-btn"
+            *ngIf="
+              currentPage + 2 != totalPages &&
+              currentPage + 1 != totalPages &&
+              currentPage != totalPages
+            "
+            >...</span
+          >
+          <button
+            class="pagination-btn"
+            (click)="loadPage(currentPage + 1)"
+            [disabled]="currentPage == totalPages"
+          >
+            ›
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

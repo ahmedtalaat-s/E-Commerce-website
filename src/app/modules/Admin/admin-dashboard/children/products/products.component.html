@@ -1,0 +1,185 @@
+<!-- Products Section -->
+<section class="content-section" id="products">
+  <div class="page-header">
+    <h1 class="page-title">Product Management</h1>
+    <p class="page-subtitle">Add and manage your products</p>
+  </div>
+
+  <div class="success-message" id="product-success">
+    Product added successfully! ✅
+  </div>
+  <div class="error-message" id="product-error">Failed to add Product! ❌</div>
+
+  <div class="form-section">
+    <div class="form-header">
+      <span class="form-icon">👕</span>
+      <h2 class="form-title">Add New Product</h2>
+    </div>
+    <form id="product-form" [formGroup]="productForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="product-name">Product Name</label>
+          <input
+            formControlName="Name"
+            type="text"
+            id="product-name"
+            class="form-input"
+            placeholder="e.g., Cotton T-Shirt"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="product-category">Category</label>
+          <select
+            id="product-category"
+            formControlName="category"
+            class="form-input form-select"
+            required
+          >
+            <option value="">Select Category</option>
+            <option
+              *ngFor="let category of categories"
+              value="{{ category.id }}"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="product-price">Price ($)</label>
+          <input
+            formControlName="price"
+            type="number"
+            id="product-price"
+            class="form-input"
+            placeholder="19.99"
+            step="0.01"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="product-stock">Stock Quantity</label>
+          <input
+            formControlName="stock"
+            type="number"
+            id="product-stock"
+            class="form-input"
+            placeholder="100"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="product-description"
+          >Product Description</label
+        >
+        <textarea
+          formControlName="description"
+          id="product-description"
+          class="form-input form-textarea"
+          placeholder="Detailed product description"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="product-colors"
+            >Available Colors</label
+          >
+          <input
+            formControlName="colors"
+            type="text"
+            id="product-colors"
+            class="form-input"
+            placeholder="Red, Blue, Green, Black"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="product-sizes">Available Sizes</label>
+          <input
+            formControlName="sizes"
+            type="text"
+            id="product-sizes"
+            class="form-input"
+            placeholder="S, M, L, XL, XXL"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="product-img">Upload Image</label>
+        <input
+          (change)="onFileChange($event)"
+          formControlName="image"
+          type="file"
+          id="product-img"
+          class="form-input"
+          placeholder=""
+          accept="image"
+        />
+      </div>
+      <button
+        *ngIf="!updateBool"
+        (click)="addProduct()"
+        type="submit"
+        [disabled]="productForm.invalid"
+        class="btn btn-primary"
+      >
+        <span>➕</span>
+        Add Product
+      </button>
+      <button
+        *ngIf="updateBool"
+        (click)="updateProductInDatabase()"
+        type="submit"
+        [disabled]="productForm.invalid"
+        class="btn btn-primary"
+      >
+        <span>➕</span>
+        Update Product
+      </button>
+    </form>
+  </div>
+
+  <div class="table-section">
+    <div class="table-header">
+      <h3 class="table-title">Product Inventory</h3>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="products-table">
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ getCategory(product.category_id) }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.stock_quantity }}</td>
+          <td>
+            <button
+              (click)="updateProduct(product.id)"
+              class="action-btn action-edit"
+            >
+              Edit
+            </button>
+            <button
+              (click)="deleteProduct(product.id, product.image_url)"
+              class="action-btn action-delete"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

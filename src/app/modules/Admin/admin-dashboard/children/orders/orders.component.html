@@ -1,0 +1,179 @@
+<!-- Orders Section -->
+<section class="content-section" id="orders">
+  <div class="page-header">
+    <h1 class="page-title">Order Management</h1>
+    <p class="page-subtitle">View and manage customer orders</p>
+  </div>
+
+  <div class="table-section">
+    <div class="table-header">
+      <h3 class="table-title">Recent Orders</h3>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.name }}</td>
+          <td>{{ order.customer_name }}</td>
+          <td>{{ getQuantity(order.details) }}</td>
+          <td>${{ order.total_price }}</td>
+          <td>
+            <span class="order-status status-{{ order.state }}">{{
+              order.state
+            }}</span>
+          </td>
+          <td>{{ order.date | date : "short" }}</td>
+          <td>
+            <button
+              class="action-btn action-edit mb-1"
+              data-bs-toggle="modal"
+              data-bs-target="#orderModal"
+              (click)="changeOrder(order.id)"
+            >
+              View
+            </button>
+            <button
+              class="action-btn action-edit mb-1"
+              (click)="navigateToNotification(order.user_id)"
+            >
+              Send Notification
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div
+  class="modal fade"
+  id="orderModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Order Details</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="cart-container">
+          <div class="state-select">
+            <select
+              (change)="changeState($event)"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option selected>update status</option>
+              <option value="paid">paid</option>
+              <option value="processing">processing</option>
+              <option value="shipped">shipped</option>
+              <option value="delivered">delivered</option>
+            </select>
+          </div>
+          <div class="cart-items">
+            <div class="cart-item" *ngFor="let order of order?.details">
+              <div class="row w-100">
+                <div class="col-12">
+                  <div class="item-controls">
+                    <div class="item-price">${{ order.totalPrice }}</div>
+                    <div class="quantity-controls">
+                      <input
+                        type="text"
+                        class="qty-input"
+                        value="{{ order.quantity }}"
+                        readonly
+                      />
+                    </div>
+                    <!-- <button class="remove-btn" (click)="deleteCartOrder(cartOrder.id)">
+              🗑️
+            </button> -->
+                  </div>
+                  <div class="item-image">
+                    <img
+                      class="w-100 h-100 object-fit-cover"
+                      src="{{
+                        order.design ? order.design : order.base_product_img
+                      }}"
+                      alt=""
+                    />
+                  </div>
+                  <div class="item-details">
+                    <div class="item-name">{{ order.title }}</div>
+                    <div class="item-options">
+                      <span class="option-tag">Size: {{ order.size }}</span>
+                      <span class="option-tag">Color: {{ order.color }}</span>
+                      <span class="option-tag">Digital Print</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="row align-items-center">
+                    <div *ngIf="order.additional_comment" class="col-9">
+                      <div class="item-name pt-2">Additional Instructions</div>
+                      <p class="item-description">
+                        {{ order.additional_comment }}
+                      </p>
+                    </div>
+                    <div
+                      *ngIf="order.row_design"
+                      class="col-3 btn btn-primary p-3"
+                      style="width: fit-content; height: fit-content"
+                      (click)="downloadImg(order.row_design)"
+                    >
+                      <i class="fa-solid fa-download"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button
+                    (click)="
+                      sendMail(order.user_id, order.title, order.product_id)
+                    "
+                    class="action-btn action-edit"
+                  >
+                    Send mail
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="updateState(order.id)"
+          >
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
