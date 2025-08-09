@@ -133,7 +133,7 @@
           <div class="results-info">
             Showing <span id="resultCount">{{ totalItems }}</span> results
           </div>
-          <div class="toolbar-controls">
+          <!-- <div class="toolbar-controls">
             <div class="view-toggle">
               <button class="view-btn active" onclick="setView('grid')">
                 ⊞
@@ -147,7 +147,7 @@
               <option>Newest First</option>
               <option>Best Rated</option>
             </select>
-          </div>
+          </div> -->
         </div>
         <p *ngIf="totalItems == 0" class="h2 text-center lead text-capitalize">
           No items to display
@@ -156,7 +156,7 @@
         <div class="products-grid" id="productsGrid">
           <!-- product Card -->
           <div
-            class="product-card"
+            class="product-card d-flex flex-column justify-content-between"
             (click)="navigateToProduct(product.id)"
             *ngFor="let product of products"
           >
@@ -181,12 +181,12 @@
                 <span class="original">$9.99</span>
               </div>
               <div class="card-actions">
-                <button
+                <!-- <button
                   class="card-btn primary"
                   (click)="navigateToProduct(product.id)"
                 >
                   Add to Cart
-                </button>
+                </button> -->
                 <button
                   class="card-btn secondary"
                   (click)="navigateToProduct(product.id)"
