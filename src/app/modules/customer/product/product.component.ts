@@ -10,6 +10,9 @@ import { CommentService } from '../../../services/comment.service';
 import { review } from './interface';
 import { formatDistanceToNow } from 'date-fns'
 import { AuthService } from '../../../services/auth.service';
+
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -109,7 +112,8 @@ this.productId = this._activatedRouter.snapshot.paramMap.get('id') as string
   }
 
   addToCart() {
-    this.totalPrice=this.product.price*this.quantity
+    if (localStorage.getItem('zerdyUserId')) {
+      this.totalPrice=this.product.price*this.quantity
     let cartOrder = {
       user_id:localStorage.getItem('zerdyUserId'),
     color:this.currentColor,
@@ -128,6 +132,10 @@ this.productId = this._activatedRouter.snapshot.paramMap.get('id') as string
     this._cartServices.addToCart(cartOrder).then(() => {
       this.addedToCartBool=true
     })
+    }
+    else {
+      this._router.navigate(['/sign'])
+    }
 
   }
    selectRating(rating: number) {
@@ -211,5 +219,17 @@ console.log(this.reviews);
     this.ngOnInit()
     this._router.navigate([`/product`,id]);
 
+  }
+  checkUserLogin() {
+    console.log('logged');
+
+    if (localStorage.getItem('zerdyUserId') == null) {
+      const canvas = document.getElementById('canvas')
+      const modalInstance=bootstrap.Modal.getInstance(canvas);
+       setTimeout(() => {
+         modalInstance.hide();
+  },500);
+
+    }
   }
 }

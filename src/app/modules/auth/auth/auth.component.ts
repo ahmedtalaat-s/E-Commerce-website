@@ -34,6 +34,8 @@ export class AuthComponent implements AfterViewInit {
 
   }
 
+
+
   ngAfterViewInit(): void {
     const toggleSwitch = document.getElementById('toggleSwitch');
     const cardWrapper = document.getElementById('cardWrapper');
@@ -75,6 +77,8 @@ export class AuthComponent implements AfterViewInit {
     (input.parentElement as HTMLElement).style.transform = 'translateY(0)';
   });
     });
+
+
   }
 
   createSignUpForm() {

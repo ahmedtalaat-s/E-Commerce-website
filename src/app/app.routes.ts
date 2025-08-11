@@ -23,8 +23,8 @@ export const routes: Routes = [
   {path: '', component: MainLayoutComponent, children: [
     { path: '', redirectTo: 'main' ,pathMatch:'full'},
     {path:'main',component:MainpageComponent,pathMatch:'full',title:'Main'},
-    {path:'allproducts',component:AllProductsComponent,pathMatch:'full',title:'All Products',canActivate:[authGuard]},
-    {path:'product/:id',component:ProductComponent,pathMatch:'full',title:'Product',canActivate:[authGuard]},
+    {path:'allproducts',component:AllProductsComponent,pathMatch:'full',title:'All Products'},
+    {path:'product/:id',component:ProductComponent,pathMatch:'full',title:'Product'},
   ]
   },
   {path: '', component: NoLayoutComponent, children: [
@@ -32,7 +32,7 @@ export const routes: Routes = [
     {path:'sign',component:AuthComponent,pathMatch:'full',title:'Sign'},
     {path:'email',component:EmailformPageComponent,pathMatch:'full',title:'Update password'},
     { path: 'updatepassword', component: ResetpassPageComponent, pathMatch: 'full', title: 'Update password' },
-    { path: 'cart', component: CartComponent, pathMatch: 'full', title: 'Your Cart' },
+    { path: 'cart', component: CartComponent, pathMatch: 'full', title: 'Your Cart',canActivate:[authGuard] },
     { path: 'success', component: SuccessComponent, pathMatch: 'full', title: 'Payment Succeeded' ,canActivate:[paymentGuard]},
     { path: 'cancel', component: CancelComponent, pathMatch: 'full', title: 'Payment Failed' ,canActivate:[paymentGuard]},
     {path:'dashboard',component:DashboardComponent,pathMatch:'full',title:'Dashboard',canActivate:[authGuard]},

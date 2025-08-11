@@ -22,5 +22,12 @@ export class AdminDashboardComponent {
       this._router.navigate(['/sign'])
       localStorage.removeItem('zerdyUserId')
       })
-    }
+  }
+
+  showSideBar() {
+
+    const aside = document.getElementsByClassName('sidebar')[0] as HTMLElement
+    console.log(aside);
+    aside.classList.toggle('showAside')
+  }
 }
