@@ -72,6 +72,7 @@ this.currentPage=1
 
 onMaxPriceChange(event: Event) {
   const target = event.target as HTMLInputElement;
+  if((+ target.value)< (this.filters.minPrice?this.filters.minPrice:0) ){target.value+=this.filters.minPrice}
   const max = parseFloat(target.value);
   this.filters.maxPrice = isNaN(max) ? null : max as any;
   this.loadPage(1);
